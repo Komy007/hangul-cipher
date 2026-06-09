@@ -44,33 +44,35 @@ export const CONSONANT: Record<string, ConsonantInfo> = {
 };
 
 // ───────────────────────────────────────────
-// 모음 X표 (이미지2 원본)
+// 모음 X표 (이미지 원본 기준)
 //
-//  상(top):    ㅓ(1개선) / ㅕ(2개선)
-//  좌(left):   ㅓ(1개선)  ← 상의 ㅓ와 같은 모양, 중복 허용
-//  우(right):  ㅗ(1개선) / ㅛ(2개선)
-//  하(bottom): ㅜ(1개선) / ㅠ(2개선)
+//  X표의 각 방향 = 두 대각선이 "벽(wall)"
+//  두 번째 음가 = 점(dot) 추가 방식
 //
-//  이미지1 격자 3행 빨간색:
-//  7번칸(ㅏ위치) → 격자벽 그대로 + 모음 ㅏ 표기
-//  8번칸(ㅑ위치) → 격자벽 그대로 + 모음 ㅑ 표기
+//  상(top):    두 선(∧모양) = ㅓ  /  + 점 = ㅕ
+//  하(bottom): 두 선(∨모양) = ㅜ  /  + 점 = ㅠ
+//  우(right):  두 선(>모양) = ㅗ  /  + 점 = ㅛ
+//  좌(left):   선 하나만    = ㅓ  (상의 ㅓ와 동일 기호, 중복 허용)
+//
+//  ㅏ, ㅑ → 격자 3행 7·8번 칸 벽으로 표현 (X표 아님)
 // ───────────────────────────────────────────
 export type VowelRegion = "top" | "left" | "right" | "bottom";
-export type VowelInfo = { region: VowelRegion; count: 1 | 2 };
+export type VowelInfo = { region: VowelRegion; dot: boolean };
 
 export const VOWEL: Record<string, VowelInfo> = {
-  // 이미지1 격자 3행 빨간글씨 위치 (ㅏ, ㅑ) → X표에는 없고 격자 칸으로만 표현
-  // 이미지2 X표
-  ㅓ: { region: "top",    count: 1 },
-  ㅕ: { region: "top",    count: 2 },
-  // 좌: ㅓ 하나 (중복 — region:"left", count:1 → 위와 동일 기호)
-  ㅗ: { region: "right",  count: 1 },
-  ㅛ: { region: "right",  count: 2 },
-  ㅜ: { region: "bottom", count: 1 },
-  ㅠ: { region: "bottom", count: 2 },
-  // ㅏ, ㅑ는 격자 7·8번 칸 위치 → 별도 처리
-  ㅏ: { region: "top",    count: 1 }, // 실제론 격자칸 기호 사용 (아래 참조)
-  ㅑ: { region: "top",    count: 2 },
+  //  ∧ (꼭짓점 위, 팔 좌하·우하) = ㅜ / +점 = ㅠ
+  ㅜ: { region: "top",    dot: false },
+  ㅠ: { region: "top",    dot: true  },
+  //  ∨ (꼭짓점 아래, 팔 좌상·우상) = ㅓ / +점 = ㅕ
+  ㅓ: { region: "bottom", dot: false },
+  ㅕ: { region: "bottom", dot: true  },
+  //  < (꼭짓점 왼쪽, 팔 우상·우하) = ㅗ / +점 = ㅛ
+  ㅗ: { region: "left",   dot: false },
+  ㅛ: { region: "left",   dot: true  },
+  //  > (선 하나) = ㅡ / +점 = ㅣ
+  ㅡ: { region: "right",  dot: false },
+  ㅣ: { region: "right",  dot: true  },
+  // ㅏ, ㅑ: 격자 7·8번 칸 벽으로 별도 처리
 };
 
 // ───────────────────────────────────────────
