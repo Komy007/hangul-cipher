@@ -14,15 +14,15 @@ export type Walls = {
 };
 
 export const CELL_WALLS: Record<number, Walls> = {
-  0: { top: true,  right: false, bottom: false, left: true  }, // ㄱ/ㄴ  ┌
-  1: { top: true,  right: true,  bottom: false, left: true  }, // ㄷ/ㄹ  ┬
-  2: { top: true,  right: true,  bottom: false, left: false }, // ㅁ/ㅂ  ┐
-  3: { top: true,  right: false, bottom: true,  left: true  }, // ㅅ/ㅇ  ├
-  4: { top: true,  right: true,  bottom: true,  left: true  }, // ㅈ/ㅊ  ┼
-  5: { top: true,  right: true,  bottom: true,  left: false }, // ㅋ/ㅌ  ┤
-  6: { top: false, right: false, bottom: true,  left: true  }, // ㅍ/ㅎ  └
-  7: { top: false, right: true,  bottom: true,  left: true  }, // (ㅏ칸) ┴
-  8: { top: false, right: true,  bottom: true,  left: false }, // (ㅑ칸) ┘
+  0: { top: false, right: true,  bottom: true,  left: false }, // ㄱ/ㄴ
+  1: { top: false, right: true,  bottom: true,  left: true  }, // ㄷ/ㄹ
+  2: { top: false, right: false, bottom: true,  left: true  }, // ㅁ/ㅂ
+  3: { top: true,  right: true,  bottom: true,  left: false }, // ㅅ/ㅇ
+  4: { top: true,  right: true,  bottom: true,  left: true  }, // ㅈ/ㅊ
+  5: { top: true,  right: false, bottom: true,  left: true  }, // ㅋ/ㅌ
+  6: { top: true,  right: true,  bottom: false, left: false }, // ㅍ/ㅎ
+  7: { top: true,  right: true,  bottom: false, left: true  }, // ㅏ
+  8: { top: true,  right: false, bottom: false, left: true  }, // ㅑ
 };
 
 export type ConsonantInfo = { cell: number; dot: boolean };

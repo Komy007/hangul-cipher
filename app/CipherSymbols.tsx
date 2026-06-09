@@ -1,102 +1,104 @@
 "use client";
 import { CELL_WALLS, CONSONANT, VOWEL } from "./cipher";
 
-const SW = 3;
-const CS = 26;
-const PAD = 5;
+const SW = 2.5;
+const S = 24;   // 칸 크기
+const PAD = 6;  // 여백
 
 // ─── 자음 SVG ────────────────────────────────────────────
-export function ConsonantSVG({ jamo, size = CS }: { jamo: string; size?: number }) {
+export function ConsonantSVG({ jamo, size = S }: { jamo: string; size?: number }) {
   const info = CONSONANT[jamo];
   if (!info) return null;
   const w = CELL_WALLS[info.cell];
   const s = size;
+  const total = s + PAD * 2;
 
   return (
     <svg
-      width={s + PAD * 2} height={s + PAD * 2}
-      viewBox={`${-PAD} ${-PAD} ${s + PAD * 2} ${s + PAD * 2}`}
-      style={{ display: "inline-block", verticalAlign: "middle", overflow: "visible" }}
+      width={total} height={total}
+      viewBox={`0 0 ${total} ${total}`}
+      style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      {w.top    && <line x1={0} y1={0} x2={s} y2={0} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.right  && <line x1={s} y1={0} x2={s} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.bottom && <line x1={0} y1={s} x2={s} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.left   && <line x1={0} y1={0} x2={0} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {info.dot && <circle cx={s / 2} cy={s / 2} r={3} fill="currentColor" />}
+      {/* top: PAD,PAD → PAD+s,PAD */}
+      {w.top    && <line x1={PAD} y1={PAD} x2={PAD+s} y2={PAD} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {/* right: PAD+s,PAD → PAD+s,PAD+s */}
+      {w.right  && <line x1={PAD+s} y1={PAD} x2={PAD+s} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {/* bottom: PAD,PAD+s → PAD+s,PAD+s */}
+      {w.bottom && <line x1={PAD} y1={PAD+s} x2={PAD+s} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {/* left: PAD,PAD → PAD,PAD+s */}
+      {w.left   && <line x1={PAD} y1={PAD} x2={PAD} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {/* dot: 중앙 */}
+      {info.dot && <circle cx={PAD+s/2} cy={PAD+s/2} r={2.5} fill="currentColor"/>}
     </svg>
   );
 }
 
 // ─── 격자칸 벽 SVG (ㅏ, ㅑ용) ───────────────────────────
-function CellWallSVG({ cell, dot = false, size = CS }: { cell: number; dot?: boolean; size?: number }) {
+function CellWallSVG({ cell, dot = false, size = S }: { cell: number; dot?: boolean; size?: number }) {
   const w = CELL_WALLS[cell];
   const s = size;
+  const total = s + PAD * 2;
   return (
     <svg
-      width={s + PAD * 2} height={s + PAD * 2}
-      viewBox={`${-PAD} ${-PAD} ${s + PAD * 2} ${s + PAD * 2}`}
-      style={{ display: "inline-block", verticalAlign: "middle", overflow: "visible" }}
+      width={total} height={total}
+      viewBox={`0 0 ${total} ${total}`}
+      style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      {w.top    && <line x1={0} y1={0} x2={s} y2={0} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.right  && <line x1={s} y1={0} x2={s} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.bottom && <line x1={0} y1={s} x2={s} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {w.left   && <line x1={0} y1={0} x2={0} y2={s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />}
-      {dot && <circle cx={s / 2} cy={s / 2} r={3} fill="currentColor" />}
+      {w.top    && <line x1={PAD} y1={PAD} x2={PAD+s} y2={PAD} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {w.right  && <line x1={PAD+s} y1={PAD} x2={PAD+s} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {w.bottom && <line x1={PAD} y1={PAD+s} x2={PAD+s} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {w.left   && <line x1={PAD} y1={PAD} x2={PAD} y2={PAD+s} stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>}
+      {dot && <circle cx={PAD+s/2} cy={PAD+s/2} r={2.5} fill="currentColor"/>}
     </svg>
   );
 }
 
 // ─── 모음 SVG ────────────────────────────────────────────
-// ㅏ → 격자 7번칸 벽
-// ㅑ → 격자 8번칸 벽 + 점
-// X표 모음:
-//   ∧ = ㅜ / ∧+점 = ㅠ
-//   ∨ = ㅓ / ∨+점 = ㅕ
-//   < = ㅗ / <+점 = ㅛ
-//   > = ㅡ / >+점 = ㅣ
-export function VowelSVG({ jamo, size = 30 }: { jamo: string; size?: number }) {
+export function VowelSVG({ jamo, size = S }: { jamo: string; size?: number }) {
   if (jamo === "ㅏ") return <CellWallSVG cell={7} dot={false} size={size} />;
   if (jamo === "ㅑ") return <CellWallSVG cell={8} dot={true}  size={size} />;
 
   const info = VOWEL[jamo];
   if (!info) return null;
 
-  const cx = size / 2, cy = size / 2;
-  const arm = size * 0.38;
+  const total = size + PAD * 2;
+  const cx = total / 2;
+  const cy = total / 2;
+  const arm = size * 0.45;
 
   type Seg = { x1: number; y1: number; x2: number; y2: number };
 
   const shapes: Record<string, { segs: Seg[]; dotX: number; dotY: number }> = {
-    // ∧ : 꼭짓점 위, 팔 좌하·우하 → ㅜ / +점 = ㅠ
+    // ∧ : 꼭짓점 위, 팔 좌하·우하 → ㅜ/ㅠ
     top: {
       segs: [
-        { x1: cx, y1: cy - arm * 0.7, x2: cx - arm, y2: cy + arm * 0.7 },
-        { x1: cx, y1: cy - arm * 0.7, x2: cx + arm, y2: cy + arm * 0.7 },
+        { x1: cx,       y1: cy - arm * 0.7, x2: cx - arm, y2: cy + arm * 0.7 },
+        { x1: cx,       y1: cy - arm * 0.7, x2: cx + arm, y2: cy + arm * 0.7 },
       ],
-      dotX: cx, dotY: cy + arm * 0.25,
+      dotX: cx, dotY: cy + arm * 0.15,
     },
-    // ∨ : 꼭짓점 아래, 팔 좌상·우상 → ㅓ / +점 = ㅕ
+    // ∨ : 꼭짓점 아래, 팔 좌상·우상 → ㅓ/ㅕ
     bottom: {
       segs: [
-        { x1: cx, y1: cy + arm * 0.7, x2: cx - arm, y2: cy - arm * 0.7 },
-        { x1: cx, y1: cy + arm * 0.7, x2: cx + arm, y2: cy - arm * 0.7 },
+        { x1: cx,       y1: cy + arm * 0.7, x2: cx - arm, y2: cy - arm * 0.7 },
+        { x1: cx,       y1: cy + arm * 0.7, x2: cx + arm, y2: cy - arm * 0.7 },
       ],
-      dotX: cx, dotY: cy - arm * 0.25,
+      dotX: cx, dotY: cy - arm * 0.15,
     },
-    // < : 꼭짓점 왼쪽, 팔 우상·우하 → ㅗ / +점 = ㅛ
+    // < : 꼭짓점 왼쪽, 팔 우상·우하 → ㅗ/ㅛ
     left: {
       segs: [
         { x1: cx - arm * 0.7, y1: cy, x2: cx + arm * 0.3, y2: cy - arm },
         { x1: cx - arm * 0.7, y1: cy, x2: cx + arm * 0.3, y2: cy + arm },
       ],
-      dotX: cx + arm * 0.1, dotY: cy,
+      dotX: cx, dotY: cy,
     },
-    // > : 선 하나 → ㅡ / +점 = ㅣ
+    // > : 선 하나 → ㅡ/ㅣ
     right: {
       segs: [
         { x1: cx + arm * 0.7, y1: cy - arm, x2: cx - arm * 0.3, y2: cy },
       ],
-      dotX: cx - arm * 0.1, dotY: cy,
+      dotX: cx, dotY: cy,
     },
   };
 
@@ -104,14 +106,14 @@ export function VowelSVG({ jamo, size = 30 }: { jamo: string; size?: number }) {
   if (!shape) return null;
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}
+    <svg width={total} height={total} viewBox={`0 0 ${total} ${total}`}
       style={{ display: "inline-block", verticalAlign: "middle" }}>
       {shape.segs.map((seg, i) => (
         <line key={i}
           x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
-          stroke="currentColor" strokeWidth={SW} strokeLinecap="round" />
+          stroke="currentColor" strokeWidth={SW} strokeLinecap="round"/>
       ))}
-      {info.dot && <circle cx={shape.dotX} cy={shape.dotY} r={3} fill="currentColor" />}
+      {info.dot && <circle cx={shape.dotX} cy={shape.dotY} r={2.5} fill="currentColor"/>}
     </svg>
   );
 }
@@ -125,10 +127,10 @@ export function SyllableBlock({ cho, jung, jong }: {
       display: "inline-flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 6,
-      margin: "0 12px",
+      gap: 4,
+      margin: "0 8px",
     }}>
-      <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
         <ConsonantSVG jamo={cho} />
         <VowelSVG jamo={jung} />
       </span>
