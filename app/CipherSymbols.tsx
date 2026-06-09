@@ -1,9 +1,9 @@
 "use client";
 import { CELL_WALLS, CONSONANT, VOWEL } from "./cipher";
 
-const SW = 2.5;
-const S = 24;   // 칸 크기
-const PAD = 6;  // 여백
+const SW = 3;
+const S = 36;   // 칸 크기
+const PAD = 8;  // 여백
 
 // ─── 자음 SVG ────────────────────────────────────────────
 export function ConsonantSVG({ jamo, size = S }: { jamo: string; size?: number }) {
@@ -125,15 +125,13 @@ export function SyllableBlock({ cho, jung, jong }: {
   return (
     <span style={{
       display: "inline-flex",
-      flexDirection: "column",
+      flexDirection: "row",
       alignItems: "center",
-      gap: 4,
-      margin: "0 8px",
+      gap: 2,
+      margin: "0 12px",
     }}>
-      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <ConsonantSVG jamo={cho} />
-        <VowelSVG jamo={jung} />
-      </span>
+      <ConsonantSVG jamo={cho} />
+      <VowelSVG jamo={jung} />
       {jong && <ConsonantSVG jamo={jong} />}
     </span>
   );
