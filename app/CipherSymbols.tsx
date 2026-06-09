@@ -93,10 +93,11 @@ export function VowelSVG({ jamo, size = S }: { jamo: string; size?: number }) {
       ],
       dotX: cx, dotY: cy,
     },
-    // > : 선 하나 → ㅡ/ㅣ
+    // > : 꼭짓점 오른쪽, 팔 좌상·좌하 → ㅡ/ㅣ
     right: {
       segs: [
-        { x1: cx + arm * 0.7, y1: cy - arm, x2: cx - arm * 0.3, y2: cy },
+        { x1: cx - arm * 0.3, y1: cy - arm, x2: cx + arm * 0.7, y2: cy },
+        { x1: cx + arm * 0.7, y1: cy,       x2: cx - arm * 0.3, y2: cy + arm },
       ],
       dotX: cx, dotY: cy,
     },
