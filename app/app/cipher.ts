@@ -60,19 +60,19 @@ export type VowelRegion = "top" | "left" | "right" | "bottom";
 export type VowelInfo = { region: VowelRegion; dot: boolean };
 
 export const VOWEL: Record<string, VowelInfo> = {
-  //  ∧ (꼭짓점 위, 팔 아래로 벌어짐) = ㅜ / +점 = ㅠ
+  //  ∧ (꼭짓점 위, 팔 좌하·우하) = ㅜ / +점 = ㅠ
   ㅜ: { region: "top",    dot: false },
   ㅠ: { region: "top",    dot: true  },
-  //  ∨ (꼭짓점 아래, 팔 위로 벌어짐) = ㅓ / +점 = ㅕ
+  //  ∨ (꼭짓점 아래, 팔 좌상·우상) = ㅓ / +점 = ㅕ
   ㅓ: { region: "bottom", dot: false },
   ㅕ: { region: "bottom", dot: true  },
-  //  < (꼭짓점 왼쪽) = ㅗ / +점 = ㅛ
+  //  < (꼭짓점 왼쪽, 팔 우상·우하) = ㅗ / +점 = ㅛ
   ㅗ: { region: "left",   dot: false },
   ㅛ: { region: "left",   dot: true  },
-  //  > (왼쪽 선 하나) = ㅓ (점 무관, 중복)
-  // ㅏ, ㅑ: 격자 3행 7·8번 칸으로 별도 처리
-  ㅏ: { region: "top",    dot: false },
-  ㅑ: { region: "top",    dot: true  },
+  //  > (선 하나) = ㅡ / +점 = ㅣ
+  ㅡ: { region: "right",  dot: false },
+  ㅣ: { region: "right",  dot: true  },
+  // ㅏ, ㅑ: 격자 7·8번 칸 벽으로 별도 처리
 };
 
 // ───────────────────────────────────────────
