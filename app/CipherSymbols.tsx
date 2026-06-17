@@ -1,5 +1,5 @@
 "use client";
-import { CELL_WALLS, CONSONANT, VOWEL } from "./cipher";
+import { CELL_WALLS, CONSONANT, VOWEL, COMPOUND_VOWEL } from "./cipher";
 
 const SW = 3;
 const S = 36;   // 칸 크기
@@ -57,6 +57,16 @@ function CellWallSVG({ cell, dot = false, size = S }: { cell: number; dot?: bool
 export function VowelSVG({ jamo, size = S }: { jamo: string; size?: number }) {
   if (jamo === "ㅏ") return <CellWallSVG cell={7} dot={false} size={size} />;
   if (jamo === "ㅑ") return <CellWallSVG cell={8} dot={true}  size={size} />;
+
+  // 복합모음: 구성 단순모음 기호를 순서대로 나란히 렌더링
+  const parts = COMPOUND_VOWEL[jamo];
+  if (parts) {
+    return (
+      <>
+        {parts.map((p, i) => <VowelSVG key={i} jamo={p} size={size} />)}
+      </>
+    );
+  }
 
   const info = VOWEL[jamo];
   if (!info) return null;
